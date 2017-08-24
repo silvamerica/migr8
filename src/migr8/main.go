@@ -8,6 +8,7 @@ import (
 
 	"github.com/codegangsta/cli"
 	"github.com/garyburd/redigo/redis"
+	"github.com/soveran/redisurl"
 )
 
 type Task struct {
@@ -96,7 +97,7 @@ func ParseConfig(c *cli.Context) {
 
 func sourceConnection(source string) redis.Conn {
 	// attempt to connect to source server
-	sourceConn, err := redis.Dial("tcp", source)
+	sourceConn, err := redisurl.ConnectToURL(source)
 	if err != nil {
 		panic(err)
 	}
@@ -106,7 +107,7 @@ func sourceConnection(source string) redis.Conn {
 
 func destConnection(dest string) redis.Conn {
 	// attempt to connect to source server
-	destConn, err := redis.Dial("tcp", dest)
+	destConn, err := redisurl.ConnectToURL(dest)
 	if err != nil {
 		panic(err)
 	}
